@@ -376,6 +376,11 @@ class Inventory:
     def __init__(self):
         self.stock = {}
 
+    def __add__(self, other):
+        self.stock[other] = int(input("Enter quantity to add: "))
+        return self
+        
+
 
 i1 = Inventory()
 i2 = Inventory()
