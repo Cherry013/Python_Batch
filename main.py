@@ -213,21 +213,21 @@ def greet(name):
 
 
 
-def valid(func):
-    def inner(x,y):
-        if isinstance(x,int) and isinstance(y,int):
-            print(f"Multiplication of {x} & {y}:",end=" ")
-            func(x,y)
-        else:
-            print("Values/Arguments Must be Integers")
-    return inner
+# def valid(func):
+#     def inner(x,y):
+#         if isinstance(x,int) and isinstance(y,int):
+#             print(f"Multiplication of {x} & {y}:",end=" ")
+#             func(x,y)
+#         else:
+#             print("Values/Arguments Must be Integers")
+#     return inner
+#
+# @valid
+# def multiply(x,y):
+#     print(x*y)
 
-@valid
-def multiply(x,y):
-    print(x*y)
-
-multiply(4,5)
-multiply('4',5)
+# multiply(4,5)
+# multiply('4',5)
 
 
 def login(func):
@@ -243,25 +243,73 @@ def login(func):
     return inner
 
 
-@login
-def securefile():
-    return "Secret File"
+# @login
+# def securefile():
+#     return "Secret File"
+#
+# print(securefile())
 
-print(securefile())
+def Upper(x):
+    for i in x:
+        if i.isupper():
+            return True
+    return False
+
+def vaild(func):
+    uns = []
+    special_char = ['@',"!","#","$","%","^","&","*"]
+    def inner(us:str,psd:str,age:int):
+        nonlocal uns
+        if us not in uns:
+            if 8 <= len(psd) <= 15:
+                k = list(filter(lambda x: x in special_char, psd))
+                n = list(filter(lambda x: x.isdigit(), psd))
+                up = Upper(psd)
+                # print(k)
+                # print(n)
+                # print(up)
+
+                if up and n and k:
+                    if age >= 18:
+                        uns.append(us)
+                        return func(us,psd,age)
+                    else:
+                        return "Age must be greater than 17"
+                else:
+                    return "Invalid Password"
+            else:
+                return "Minimum length of the password is 8 characters"
+        else:
+            return "Username already exists"
+    return inner
 
 
+@vaild
+def register(username,password,age):
+    return f"{username}'s Register Successful"
+#
+# print(register("praveen","Dhaya143$$",19))
+# print(register("praveen","Dhaya143$$",19))
+
+import functools
+
+def ann(func):
+    @functools.wraps(func)
+    def inner(x,y):
+        # print(func.__name__)
+        # print(func.__annotations__)
+        # print(func.__doc__)
+        print(x,y)
+        return func(x,y)
+    return inner
 
 
+@ann
+def fun(a:int,b:int) -> int:
+    """Just adding a Doc for the function"""
+    return a+b
 
-
-
-
-
-
-
-
-
-
-
-
-
+print(fun(10,24))
+print(fun.__name__)
+print(fun.__annotations__)
+print(fun.__doc__)

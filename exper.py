@@ -361,7 +361,7 @@ v1 = Vector(5,6)
 v2 = Vector(9,10)
 v3 = Vector(3,4)
 #
-# v = [v1,v2,v3]
+v = [v1,v2,v3]
 # print(v)
 # print(v1+v2+v3) # v1.__add__(v2) --> Vector.__add__(v1,v2)
 # print(type(v1+v2))
@@ -378,16 +378,79 @@ class Inventory:
 
     def __add__(self, other):
         self.stock[other] = int(input("Enter quantity to add: "))
+        Inventory.total_items += 1
         return self
-        
+
+    def __sub__(self,other):
+        if other in self.stock.keys():
+            print(f"{other}: {self.stock[other]}")
+            qn = int(input("Enter quantity to subtract: "))
+            if qn >= self.stock[other]:
+                print("Item is out of stock")
+                self.stock.pop(other)
+                Inventory.total_items -= 1
+            else:
+                self.stock[other] -= qn
+                print(f"Remaining\n{other}: {self.stock[other]}")
+        else:
+            print("Item not in inventory")
+        return self
+
+    def __str__(self):
+        return f"Inventory({self.stock})"
+
+    def __repr__(self):
+        return f"Inventory({self.stock})"
 
 
-i1 = Inventory()
-i2 = Inventory()
-i1+"Marker"+"Mobile"
-i2+"TV"+"Laptop"
-print(i1)
-print(i2)
-print(i1-"Laptop")
-print(i2-"TV")
+# i1 = Inventory()
+# i2 = Inventory()
+# i1+"Marker"+"Mobile"
+# i2+"TV"+"Laptop"
+# print(i1)
+# print(i2)
+# print(Inventory.total_items)
+# print(i1-"Laptop")
+# print(i2-"TV")
+
+
+
+
+
+class Mobile:
+    total_apps = 0
+    total_files = 0
+    def __init__(self):
+        self.applications = {"games":{},"media":{}} # {"games":{"pubg":7}, "media":{"Instagram":"300MB"}}
+        self.files = {"Docs":{}, "Images":{},"Videos":{}} # {"Docs":{"coding.py":"16KB"}, "Images":{"457njgd8.jpg":"1.67MB"}}
+        self.wifi = False # True: on, False:off
+        self.mobile_data = False # True: on, False:off
+        self.hotspot = False
+        self.Airplane = False
+        self.VPN = ""
+        self.Storage = 128
+        self.Storage_used = 8
+        self.password = input("Enter password for mobile: ")
+
+    def change_wifi(self):
+        print(f"wifi : {'On' if self.wifi else 'Off'}")
+        if int(input("enter something to change: ")):
+            if self.wifi:
+                self.wifi = False
+            else:
+                self.wifi = True
+
+    def wifi_on(self):
+        self.wifi = True
+    def wifi_off(self):
+        self.wifi = False
+
+#
+# m1 = Mobile()
+# print(m1.applications)
+# d = {}
+# m1.applications["games"]["BGMI"] = 12
+# print(m1.applications)
+
+
 
